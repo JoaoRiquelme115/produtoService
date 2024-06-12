@@ -23,7 +23,8 @@ public class App {
         // ProdutoService.deletar(p);
 
         // Testando listarProdutos
-        listarArray(ProdutoService.listarProdutos());
+        // listarArray(ProdutoService.listarProdutos());
+        listarArray(ProdutoService.listarPorNome("bolacha"));
     }
 
     public static void listarArray(List<Produto> lista) {

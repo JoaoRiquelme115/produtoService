@@ -80,4 +80,26 @@ public class ProdutoService {
         return produtos;
     }
     
+    public static List<Produto> listarPorNome(String nome) {
+        List<Produto> produtos = new ArrayList<>();
+        try(Connection conn = App.getConexao()) {
+            String sql = "SELECT * FROM produto WHERE nome = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1,nome);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()) {
+                Produto p = new Produto();
+                p.setId(rs.getLong("id"));
+                p.setNome(rs.getString("nome"));
+                p.setQtde(rs.getInt("qtde"));
+                p.setValor(rs.getDouble("valor"));
+                produtos.add(p);
+            }
+        } catch(SQLException ex) {
+            System.err.println("NÃO FOI POSSÍVEL LISTAR OS PRODUTOS PELO NOME!");
+            ex.printStackTrace();
+        }
+        return produtos;
+    }
+
 }

@@ -1,10 +1,14 @@
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProdutoService {
     
-    public static void inserir(Produto produto) {
+    public static void inserir(Produto produto) throws SQLException {
         try(Connection conn = App.getConexao()) {
             String sql = "INSERT INTO produto (id,nome,qtde,valor) VALUES (?,?,?,?)";
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -22,7 +26,7 @@ public class ProdutoService {
         }
     }
 
-    public static void atualizar(Produto produto, Long id) {
+    public static void atualizar(Produto produto, Long id) throws SQLException {
         try(Connection conn = App.getConexao()) {
             String sql = "UPDATE produto SET nome = ?, qtde = ?, valor = ? WHERE id = ?";
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -40,4 +44,40 @@ public class ProdutoService {
         }
     }
 
+    public static void deletar(Produto produto) throws SQLException {
+        try(Connection conn = App.getConexao()) {
+            String sql = "DELETE FROM produto WHERE id = ?";
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setLong(1, produto.getId());
+            int res = ps.executeUpdate();
+            if (res > 0) {
+                System.out.println("PRODUTO DELETADO!");
+            }
+        } catch(SQLException ex) {
+            System.err.println("PRODUTO NÃO DELETADO!");
+            ex.printStackTrace();
+        }
+    }
+    
+    public static List<Produto> listarProdutos() {
+        List<Produto> produtos = new ArrayList<>();
+        try(Connection conn = App.getConexao()) {
+            String sql = "SELECT * FROM produto";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            while(rs.next()) {
+                Produto p = new Produto();
+                p.setId(rs.getLong("id"));
+                p.setNome(rs.getString("nome"));
+                p.setQtde(rs.getInt("qtde"));
+                p.setValor(rs.getDouble("valor"));
+                produtos.add(p);
+            }
+        } catch(SQLException ex) {
+            System.err.println("NÃO FOI POSSÍVEL LISTAR OS PRODUTOS!");
+            ex.printStackTrace();
+        }
+        return produtos;
+    }
+    
 }

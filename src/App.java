@@ -1,6 +1,7 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;;
+import java.sql.SQLException;
+import java.util.List;;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -16,7 +17,19 @@ public class App {
         // ProdutoService.inserir(p);
 
         // Testando atualizar produto
-        ProdutoService.atualizar(p,(long)17);
+        // ProdutoService.atualizar(p,(long)17);
+
+        // Testando deletar produto
+        // ProdutoService.deletar(p);
+
+        // Testando listarProdutos
+        listarArray(ProdutoService.listarProdutos());
+    }
+
+    public static void listarArray(List<Produto> lista) {
+        for(int i = 0; i < lista.size(); i++) {
+            System.out.println(lista.get(i));
+        }
     }
 
     public static Connection getConexao() {

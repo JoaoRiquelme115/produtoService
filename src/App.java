@@ -1,21 +1,22 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Calendar;
-import java.util.Date;
+import java.sql.SQLException;;
 
 public class App {
     public static void main(String[] args) throws Exception {
         System.out.println("Hello, World!");
 
         Produto p = new Produto();
-        p.setId((long) 16);
-        p.setNome("café");
-        p.setQtde(45);
-        p.setValor(8.50);
+        p.setId((long) 17);
+        p.setNome("bolacha");
+        p.setQtde(77);
+        p.setValor(4.50);
 
         // Testando inserir produto
-        ProdutoService.inserir(p);
+        // ProdutoService.inserir(p);
+
+        // Testando atualizar produto
+        ProdutoService.atualizar(p,(long)17);
     }
 
     public static Connection getConexao() {
